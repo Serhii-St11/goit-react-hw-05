@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   useParams,
   useLocation,
@@ -17,6 +17,8 @@ export default function MovieDetailsPage() {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const backLinkRef = useRef(location.state?.from || "/movies");
+
   useEffect(() => {
     const getMovieDetails = async () => {
       try {
@@ -32,8 +34,7 @@ export default function MovieDetailsPage() {
   }, [movieId]);
 
   const handleGoBack = () => {
-    const from = location.state?.from || "/movies";
-    navigate(from);
+    navigate(backLinkRef.current);
   };
 
   if (loading) {
